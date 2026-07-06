@@ -11,6 +11,7 @@ function App() {
       <Route index element={<HomePage/>}></Route>
       <Route path="checkout" element={<CheckoutPage/>}></Route>
       <Route path="orders" element={<OrdersPage/>}/>
+      <Route path="tracking" element={<TrackingPage/>}/>
     </Routes>
   )
 }
