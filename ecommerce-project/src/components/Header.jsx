@@ -9,7 +9,7 @@ export function Header(){
             src="images/logo-white.png" />
           <img className="mobile-logo"
             src="images/mobile-logo-white.png" />
-        </a>
+        </Link>
       </div>
 
       <div className="middle-section">

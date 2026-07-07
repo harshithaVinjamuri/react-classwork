@@ -1,5 +1,5 @@
 import './HomePage.css';
-import {products} from '../../starting code/data/products';
+import { products } from '../data/products';
 import { Header } from '../components/Header';
 export function HomePage(){
     return (
@@ -8,28 +8,28 @@ export function HomePage(){
         <Header />
     <div className="home-page">
       <div className="products-grid">
-        {products.map(()=>{
+        {products.map((product)=>{
           return(
-            <div key ={products.id} className="product-container">
+            <div key ={product.id} className="product-container">
           <div className="product-image-container">
             <img className="product-image"
-              src= {products.image} />
+              src= {product.image} />
           </div>
 
           <div className="product-name limit-text-to-2-lines">
-            {products.name}
+            {product.name}
           </div>
 
           <div className="product-rating-container">
             <img className="product-rating-stars"
-              src={`images/ratings/rating-${products.rating.stars * 10}.png`} />
+              src={`images/ratings/rating-${product.rating.stars * 10}.png`} />
             <div className="product-rating-count link-primary">
-              {products.rating.count}
+              {product.rating.count}
             </div>
           </div>
 
           <div className="product-price">
-            ${(products.priceCents / 100).toFixed(2)}
+            ${(product.priceCents / 100).toFixed(2)}
           </div>
 
           <div className="product-quantity-container">
