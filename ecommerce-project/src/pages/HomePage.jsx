@@ -3,14 +3,27 @@ import './HomePage.css';
 import { useEffect, useState } from 'react';
 import { Header } from '../components/Header';
 import { formatMoney } from '../utils/money';
-export function HomePage({cart}){
+export function HomePage({cart, fetchCart}){
   const[products,setProducts]=useState([]);
+  const[quantities, setQuantities]=useState({});
+  const[addedMessageVisible, setAddedMessageVisible]=useState({});
   
   useEffect(()=>{
-    axios.get('http://localhost:3000/api/products').then((response)=>{
+    axios.get('/api/products').then((response)=>{
     setProducts(response.data);
   });
   },[]); 
+
+  const handleAddToCart = (productId) => {
+    const quantity = quantities[productId] || 1;
+    axios.post('/api/cart-items', { productId, quantity }).then(() => {
+      fetchCart();
+      setAddedMessageVisible((prev) => ({ ...prev, [productId]: true }));
+      setTimeout(() => {
+        setAddedMessageVisible((prev) => ({ ...prev, [productId]: false }));
+      }, 2000);
+    });
+  };
 
     return (
         <>
@@ -43,7 +56,7 @@ export function HomePage({cart}){
           </div>
 
           <div className="product-quantity-container">
-            <select>
+            <select value={quantities[product.id] || 1} onChange={(e) => setQuantities({ ...quantities, [product.id]: Number(e.target.value) })}>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -59,12 +72,15 @@ export function HomePage({cart}){
 
           <div className="product-spacer"></div>
 
-          <div className="added-to-cart">
+          <div className={`added-to-cart ${addedMessageVisible[product.id] ? 'visible' : ''}`} style={{ opacity: addedMessageVisible[product.id] ? 1 : 0 }}>
             <img src="images/icons/checkmark.png" />
             Added
           </div>
 
-          <button className="add-to-cart-button button-primary">
+          <button 
+            className="add-to-cart-button button-primary"
+            onClick={() => handleAddToCart(product.id)}
+          >
             Add to Cart
           </button>
         </div>
